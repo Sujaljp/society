@@ -1,0 +1,30 @@
+
+
+<nav>
+    <div class="nav-wrapper #1976d2 blue darken-2">
+        <a href="/" class="brand-logo">E-House Care</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="/">Home</a></li>
+
+            {% if user.is_authenticated %}
+              {% if user.is_staff %}
+                <li><a href="/makenotice">Make Notice</a></li>
+              {% endif %}
+              <li><a href="/test">Testing</a></li>
+              <li><a href="/noticeboard">Notice Board</a></li>
+              <li><a href="/service">Services</a></li>
+              <li><a href="/searchbill">Bills</a></li>
+              <li><a href="/complaint">Complaint Box</a></li>
+              <li><a href="/staff">Society Staff</a></li>
+              <li><a href="/logout">Logout</a></li>
+            {% else %}
+              <li><a href="/login">Login</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+<style media="screen">
+  a.brand-logo{
+    margin-left: 15px;
+  }
+</style>

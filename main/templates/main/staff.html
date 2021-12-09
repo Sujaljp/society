@@ -1,0 +1,40 @@
+{% extends "main/header.html" %} {% block content %}
+<h1>Society Staff</h1>
+<div class="container">
+
+
+<div class="row">
+  {% for member in staff %}
+    <div class="col s12 m7">
+      <div class="card">
+        <div class="card-image">
+          <img src="{{ member.image.url }}">
+          <span class="card-title">{{ member.designation }}</span>
+        </div>
+        <div class="card-content">
+          <p style="text-align:center;">
+            <h5 style="text-align:center;">{{ member.staff_name }}</h5>
+            <h6 style="text-align:center;">Phone Number: {{ member.staff_phone }}</h6>
+            <h6 style="text-align:center;">Email: {{ member.staff_email }}</h6>
+            {{ member.about }}
+          </p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<style media="screen">
+  div.container{
+    position: relative;
+    text-align: center;
+    left: 100px;
+  }
+  h1{
+    text-align: center;
+    position: relative;
+    right: 60px;
+  }
+</style>
+
+{% endblock %}

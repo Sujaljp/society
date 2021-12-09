@@ -1,0 +1,23 @@
+{% extends "main/header.html" %} {% block content %}
+
+
+
+<div class="row">
+  {% for main in searchbill %}
+  <div class="col s12 m6 l4">
+    <div class="card blue-grey darken-1">
+      <div class="card-content white-text">
+        <span class="card-title">Maintenance Bill</span>
+        <p>Pulished Date: {{main.publish_date}}</p>
+        <p>Due Date: {{main.due_date|safe}}</p>
+      </div>
+      <div class="card-action">
+        <a href="/viewbill">View</a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+
+{% endblock %}
