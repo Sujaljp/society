@@ -1,10 +1,66 @@
-{% extends "main/header.html" %} {% block content %}
+<html><head>
+
+    <link rel="stylesheet" href="/static/tiny/css/prism">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="/static/main/css/materialize.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+
+<body>
+
+
+<nav>
+    <div class="nav-wrapper #1976d2 blue darken-2">
+        <a href="/" class="brand-logo">E-House Care</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="/">Home</a></li>
+
+
+            {% if user.is_staff %}
+              <li><a href="/makenotice">Make Notice</a></li>
+            {% endif %}
+
+              <li><a href="/noticeboard">Notice Board</a></li>
+              <li><a href="/service">Services</a></li>
+              <li><a href="/searchbill">Bills</a></li>
+              <li><a href="/complaint">Complaint Box</a></li>
+              <li><a href="/staff">Society Staff</a></li>
+              <li><a href="/logout">Logout</a></li>
+
+        </ul>
+    </div>
+</nav>
+<style media="screen">
+  a.brand-logo{
+    margin-left: 15px;
+  }
+</style>
+
+
+
+    <br><br>
+    <div class="container">
 
 <h1 style="text-align:center;">Services</h1>
 <form role="form" action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn" style='background-color: blanchedalmond; color: brown;'>Request</button>
+    <input type="hidden" name="csrfmiddlewaretoken" value="WFRN00p4DhH8v0VkqLw3ugHsDZJ1fzmIPf38mz3nFblskuKQmJHRb0uPqlYqjTKw">
+    <p><label for="id_service_name">Service name:</label> <select class="browser-default" name="service_name" required="" id="id_service_name">
+  <option value="" selected="">---------</option>
+
+  <option value="Electrician">Electrician</option>
+
+  <option value="Internet Service Provider">Internet Service Provider</option>
+
+  <option value="Plumber">Plumber</option>
+
+</select></p>
+<p><label for="id_service_details" class="">Specify your request:</label> <textarea name="service_details" cols="40" rows="10" required="" id="id_service_details"></textarea></p>
+    <button type="submit" class="btn" style="background-color: blanchedalmond; color: brown;">Request</button>
 </form>
 
-{% endblock %}
+</div>
+
+
+<script src="/static/tinymce/js/prism.js"></script>
+</body></html>
