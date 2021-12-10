@@ -12,7 +12,7 @@
         <p>Due Date: {{main.due_date|safe}}</p>
       </div>
       <div class="card-action">
-        <a href="/viewbill">View</a>
+        <a href="{% url 'main:viewbill' main.id %}">View</a>
       </div>
     </div>
   </div>

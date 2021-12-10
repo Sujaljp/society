@@ -67,7 +67,7 @@ class Bills(models.Model):
     sinking_fund_charges = models.IntegerField(default=80)
     parking_charges = models.IntegerField(default=100)
     charity_charges = models.IntegerField(default=20)
-
+    
 
     publish_date = models.DateTimeField(default=datetime.now, blank=True)
     due_date = models.DateTimeField()

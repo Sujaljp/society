@@ -12,10 +12,11 @@ urlpatterns = [
     path('noticeboard', views.noticeboard, name='noticeboard'),
     path('complaint/', views.complaint, name='complaint'),
     path('staff/', views.staff, name='staff'),
-    path('viewbill', views.viewbill, name='viewbill'),
     path('makenotice', views.makenotice, name='makenotice'),
     path('service', views.service, name='service'),
     path('searchbill', views.searchbill, name='searchbill'),
+    path('<int:bill_id>/', views.viewbill, name='viewbill'),
+
     path('test', views.test, name='test'),
 ]
 

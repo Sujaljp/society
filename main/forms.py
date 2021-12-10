@@ -62,12 +62,18 @@ class NoticeForm(ModelForm):
 class ServiceForm(ModelForm):
     class Meta:
         model = Service
-        fields = ['service_name','service_details']
-    serv = Service.objects.all()
-    service_name = forms.ModelChoiceField(queryset=Service.objects.all(), to_field_name="service_name")
+        fields = ['service_name','client','service_details']
+
+    demo_choice = (
+                    ("1", "Electrician"),
+                    ("2", "Internet Service Provider"),
+                    ("3", "Plumber"),
+                  )
+    service_name = forms.ChoiceField(choices = demo_choice )
+    client = forms.CharField(required=True)
     service_details = forms.CharField(required=True,widget=forms.Textarea)
 
     def __init__(self, *args, **kwargs):
         super(ServiceForm, self).__init__(*args, **kwargs)
-        
+        self.fields['client'].label = "Please enter your Flat Number:"
         self.fields['service_details'].label = "Specify your request:"

@@ -89,7 +89,7 @@
 
             <br>
 
-            
+
 
 
             <table width="100%" border="1">
@@ -98,23 +98,23 @@
                 </tr>
                 <tr>
                     <th style="width: 5%;font-size: 12px;background: rgba(217,225,242,1.0)">Name</th>
-                    <th>{{user.name}}</th>
+                    <th>{{profile.name}}</th>
                 </tr>
                 <tr>
                     <th style="width: 5%;font-size: 12px;background: rgba(217,225,242,1.0)">Flat Number</th>
-                    <th>{{user.flat_no}}</th>
+                    <th>{{profile.flat_no}}</th>
                 </tr>
                 <tr>
                     <th style="width: 5%;font-size: 12px;background: rgba(217,225,242,1.0)">Email</th>
-                    <th></th>
+                    <th>{{profile.email}}</th>
                 </tr>
                 <tr>
                     <th style="width: 5%;font-size: 12px;background: rgba(217,225,242,1.0)">Date Published</th>
-                    <th>{{user.publish_date}}</th>
+                    <th>{{bill.publish_date}}</th>
                 </tr>
                 <tr>
                     <th style="width: 5%;font-size: 12px;background: rgba(217,225,242,1.0)">Date Due</th>
-                    <th>{{user.due_date}}</th>
+                    <th>{{bill.due_date}}</th>
                 </tr>
             </table>
             <br>
@@ -132,11 +132,11 @@
                 </tr>
                 <tbody>
 
-                <tr><td>1</td><td colspan="3">Repairs and Maintenance Fund</td><td>{{user.repairs_maintenance_charges}}</td></tr>
-                <tr><td>2</td><td colspan="3">Society Service Charges</td><td>{{user.society_service_charges}}</td></tr>
-                <tr><td>3</td><td colspan="3">Parking Charges</td><td>{{user.parking_charges}}</td></tr>
-                <tr><td>4</td><td colspan="3">Sinking Fund</td><td>{{user.sinking_fund_charges}}</td></tr>
-                <tr><td>5</td><td colspan="3">Charity Fund</td><td>{{user.charity_charges}}</td></tr>
+                <tr><td>1</td><td colspan="3">Repairs and Maintenance Fund</td><td>{{bill.repairs_maintenance_charges}}</td></tr>
+                <tr><td>2</td><td colspan="3">Society Service Charges</td><td>{{bill.society_service_charges}}</td></tr>
+                <tr><td>3</td><td colspan="3">Parking Charges</td><td>{{bill.parking_charges}}</td></tr>
+                <tr><td>4</td><td colspan="3">Sinking Fund</td><td>{{bill.sinking_fund_charges}}</td></tr>
+                <tr><td>5</td><td colspan="3">Charity Fund</td><td>{{bill.charity_charges}}</td></tr>
                 </tbody>
 
 
@@ -144,7 +144,7 @@
                 <tfoot>
                 <tr style="background: rgba(217,225,242,1.0);">
                     <td colspan="4">Total Amount</td>
-                    <td colspan="1">{{summation}}</td>
+                    <td colspan="1"></td>
                 </tr>
                 <tr>
                   <td colspan="4">Previous Dues(If Any)</td>

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from main.forms import NewUserForm, ComplaintForm, NoticeForm, ServiceForm
 from main.models import MainPage
@@ -12,6 +12,7 @@ from django.core.mail import EmailMessage
 from django.db.models import Sum
 from django.db.models import F
 from django.contrib.auth.models import User
+from django.forms.models import model_to_dict
 def homepage(request):
     return render(request=request,
                   template_name='main/home.html',
@@ -112,17 +113,14 @@ def service(request):
     if request.method == 'GET':
         return render(request, "main/service.html", context={'form': ServiceForm()})
     else:
-
         form = ServiceForm(request.POST)
         newservice = form.save(commit=False)
         newservice.user = request.user
-        newservice.save()
-        obj = Service.objects.all()
-        if (request.get.GET('Electrician')):
-            subject = 'i have a problem'
+        if newservice.service_name == '1':
+            subject = newservice.user.username
             message = newservice.service_details
             from_email = settings.EMAIL_HOST_USER
-            recievers = obj[0].service_email
+            recievers = ['mihirbhatkar87@gmail.com']
             emailsending = EmailMessage(subject, message, from_email, recievers)
             emailsending.send()
 
@@ -141,26 +139,19 @@ def test(request):
     v3 = obj[2].service_name
     return render(request, 'main/test.html', context={'v1':v1, 'v2':v2, 'v3':v3})
 
-def viewbill(request, list):
-    obj = Bills.objects.all()
+def viewbill(request, bill_id):
 
-    importlist = searchbill(list)
-    print(importlist)
+    bill = model_to_dict(Bills.objects.get(pk = bill_id))
+
+    username = request.user.get_username()
+    for user1 in Profile.objects.all():
+        if username == user1.user.username:
+            prof = user1
 
 
 
+    context={'bill':bill, 'profile':prof}
 
-
-    repairs_maintenance_charges = obj.repairs_maintenance_charges
-    society_service_charges = obj.society_service_charges
-    sinking_fund_charges = obj.sinking_fund_charges
-    charity_charges = obj.charity_charges
-    parking_charges = obj.parking_charges
-    summation = repairs_maintenance_charges+society_service_charges+parking_charges+charity_charges+sinking_fund_charges
-
-    context={'searchbill':Bills.objects.all(),
-             'summation':summation,
-             'profile':Profile.objects.all()}
     return render(request, 'main/viewbill.html', context )
 
 
@@ -172,5 +163,4 @@ def searchbill(request):
         if username == user1.user.username:
             list.append(user1)
 
-    return list
     return render(request, 'main/searchbill.html', context={'searchbill':list})

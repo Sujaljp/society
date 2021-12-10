@@ -5,6 +5,12 @@
     <link rel="stylesheet" href="/static/main/css/materialize.css">
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+          $('select').formSelect();
+      })
+    </script>
+
 </head>
 
 <body>
@@ -17,9 +23,9 @@
             <li><a href="/">Home</a></li>
 
 
-            {% if user.is_staff %}
-              <li><a href="/makenotice">Make Notice</a></li>
-            {% endif %}
+
+                <li><a href="/makenotice">Make Notice</a></li>
+
 
               <li><a href="/noticeboard">Notice Board</a></li>
               <li><a href="/service">Services</a></li>
@@ -41,20 +47,18 @@
 
     <br><br>
     <div class="container">
-
 <h1 style="text-align:center;">Services</h1>
-<form role="form" action="" method="post">
-    <input type="hidden" name="csrfmiddlewaretoken" value="WFRN00p4DhH8v0VkqLw3ugHsDZJ1fzmIPf38mz3nFblskuKQmJHRb0uPqlYqjTKw">
-    <p><label for="id_service_name">Service name:</label> <select class="browser-default" name="service_name" required="" id="id_service_name">
-  <option value="" selected="">---------</option>
+<form role="form" action="" method="post">{% csrf_token %}
+    
+    <p><label for="id_service_name">Service name:</label> <select class="browser-default" name="service_name" id="id_service_name">
+  <option value="1">Electrician</option>
 
-  <option value="Electrician">Electrician</option>
+  <option value="2">Internet Service Provider</option>
 
-  <option value="Internet Service Provider">Internet Service Provider</option>
-
-  <option value="Plumber">Plumber</option>
+  <option value="3">Plumber</option>
 
 </select></p>
+<p><label for="id_client" class="">Please enter your Flat Number:</label> <input type="text" name="client" required="" id="id_client"></p>
 <p><label for="id_service_details" class="">Specify your request:</label> <textarea name="service_details" cols="40" rows="10" required="" id="id_service_details"></textarea></p>
     <button type="submit" class="btn" style="background-color: blanchedalmond; color: brown;">Request</button>
 </form>
