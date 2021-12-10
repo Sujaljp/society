@@ -3,6 +3,7 @@ from django.db.models.fields import CharField, TextField, EmailField, IntegerFie
 from django.contrib.auth.models import User
 from django.contrib.auth.models import UserManager
 from datetime import datetime
+import datetime
 class MainPage(models.Model):
     society_name = CharField(max_length=200)
     society_about = TextField()
@@ -59,18 +60,15 @@ class Service(models.Model):
 class Bills(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
-    name= models.CharField(max_length=100, null=True)
-    flat_no = models.CharField(max_length=100, null=True)
-
     repairs_maintenance_charges = models.IntegerField()
     society_service_charges = models.IntegerField()
     sinking_fund_charges = models.IntegerField(default=80)
     parking_charges = models.IntegerField(default=100)
     charity_charges = models.IntegerField(default=20)
-    
+    previous_dues = models.IntegerField(default=0, null=True)
 
-    publish_date = models.DateTimeField(default=datetime.now, blank=True)
-    due_date = models.DateTimeField()
+    publish_date = models.DateField(default=datetime.date.today, blank=True)
+    due_date = models.DateField()
     flat_no_and_date = models.CharField(max_length=100)
     def __str__(self):
         return str(self.flat_no_and_date)

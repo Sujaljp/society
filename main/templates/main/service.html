@@ -24,8 +24,9 @@
 
 
 
-                <li><a href="/makenotice">Make Notice</a></li>
-
+            {% if user.is_staff %}
+              <li><a href="/makenotice">Make Notice</a></li>
+            {% endif %}
 
               <li><a href="/noticeboard">Notice Board</a></li>
               <li><a href="/service">Services</a></li>
@@ -49,7 +50,7 @@
     <div class="container">
 <h1 style="text-align:center;">Services</h1>
 <form role="form" action="" method="post">{% csrf_token %}
-    
+
     <p><label for="id_service_name">Service name:</label> <select class="browser-default" name="service_name" id="id_service_name">
   <option value="1">Electrician</option>
 
