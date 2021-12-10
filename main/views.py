@@ -117,7 +117,14 @@ def service(request):
         newservice = form.save(commit=False)
         newservice.user = request.user
         newservice.save()
-
+        obj = Service.objects.all()
+        if (request.get.GET('Electrician')):
+            subject = 'i have a problem'
+            message = newservice.service_details
+            from_email = settings.EMAIL_HOST_USER
+            recievers = obj[0].service_email
+            emailsending = EmailMessage(subject, message, from_email, recievers)
+            emailsending.send()
 
 
 
