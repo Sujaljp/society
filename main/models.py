@@ -12,6 +12,7 @@ class MainPage(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, null=True)
     email = models.EmailField()
     age = models.IntegerField(blank=True)
     flat_no = models.CharField(max_length=10)
@@ -56,7 +57,7 @@ class Service(models.Model):
 
 
 class Bills(models.Model):
-    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
     name= models.CharField(max_length=100, null=True)
     flat_no = models.CharField(max_length=100, null=True)
@@ -73,7 +74,3 @@ class Bills(models.Model):
     flat_no_and_date = models.CharField(max_length=100)
     def __str__(self):
         return str(self.flat_no_and_date)
-class Month(models.Model):
-    total = models.IntegerField()
-    def __str__(self):
-        return str(self.total)

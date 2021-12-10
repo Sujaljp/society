@@ -118,7 +118,9 @@ def service(request):
         newservice.user = request.user
         newservice.save()
 
-        
+
+
+
         messages.info(request, 'Service has been notified of your request.')
         return redirect('main:homepage')
 
@@ -132,9 +134,15 @@ def test(request):
     v3 = obj[2].service_name
     return render(request, 'main/test.html', context={'v1':v1, 'v2':v2, 'v3':v3})
 
-def viewbill(request):
-    obj = Bills.objects.all()[0]
-    print(obj)
+def viewbill(request, list):
+    obj = Bills.objects.all()
+
+    importlist = searchbill(list)
+    print(importlist)
+
+
+
+
 
     repairs_maintenance_charges = obj.repairs_maintenance_charges
     society_service_charges = obj.society_service_charges
@@ -143,9 +151,19 @@ def viewbill(request):
     parking_charges = obj.parking_charges
     summation = repairs_maintenance_charges+society_service_charges+parking_charges+charity_charges+sinking_fund_charges
 
-    context={'searchbill':Bills.objects.all(), 'summation':summation, 'profile':Profile.objects.all()}
+    context={'searchbill':Bills.objects.all(),
+             'summation':summation,
+             'profile':Profile.objects.all()}
     return render(request, 'main/viewbill.html', context )
 
 
 def searchbill(request):
-    return render(request, 'main/searchbill.html', context={'searchbill':Bills.objects.all()})
+    obj = Profile.objects.all()
+    username = request.user.get_username()
+    list = []
+    for user1 in Bills.objects.all():
+        if username == user1.user.username:
+            list.append(user1)
+
+    return list
+    return render(request, 'main/searchbill.html', context={'searchbill':list})
