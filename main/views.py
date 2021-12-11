@@ -123,8 +123,20 @@ def service(request):
             recievers = ['mihirbhatkar87@gmail.com']
             emailsending = EmailMessage(subject, message, from_email, recievers)
             emailsending.send()
-
-
+        if newservice.service_name == '2':
+            subject = newservice.user.username
+            message = newservice.service_details
+            from_email = settings.EMAIL_HOST_USER
+            recievers = ['21rihim@gmail.com']
+            emailsending = EmailMessage(subject, message, from_email, recievers)
+            emailsending.send()
+        if newservice.service_name == '3':
+            subject = newservice.user.username
+            message = newservice.service_details
+            from_email = settings.EMAIL_HOST_USER
+            recievers = ['nishchayrajpal8@gmail.com']
+            emailsending = EmailMessage(subject, message, from_email, recievers)
+            emailsending.send()
 
         messages.info(request, 'Service has been notified of your request.')
         return redirect('main:homepage')
@@ -148,9 +160,10 @@ def viewbill(request, bill_id):
         if username == user1.user.username:
             prof = user1
 
+    total = bill['repairs_maintenance_charges'] + bill['society_service_charges'] + bill['charity_charges'] + bill['sinking_fund_charges'] + bill['parking_charges']
+    final = total + bill['previous_dues']
 
-
-    context={'bill':bill, 'profile':prof}
+    context={'bill':bill, 'profile':prof, 'total':total, 'final':final}
 
     return render(request, 'main/viewbill.html', context )
 

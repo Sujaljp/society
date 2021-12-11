@@ -9,7 +9,7 @@
       <div class="card-content white-text">
         <span class="card-title">Maintenance Bill</span>
         <p>Published Date: {{main.publish_date}}</p>
-        <p>Due Date: {{main.due_date|safe}}</p>
+        <p>Due Date: {{main.due_date}}</p>
       </div>
       <div class="card-action">
         <a href="{% url 'main:viewbill' main.id %}">View</a>

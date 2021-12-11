@@ -82,7 +82,7 @@
         <div style="width: 100%;padding-right: 10px;" class="col-md-12">
             <div class="row">
                 <div class="col-lg-4" style="width: 70%;padding-left: 20px;">
-                    <h4>MAINTENANCE BILL</h4>
+                    <h4 style="text-align:center;">MAINTENANCE BILL</h4>
                 </div>
 
             </div>
@@ -144,7 +144,7 @@
                 <tfoot>
                 <tr style="background: rgba(217,225,242,1.0);">
                     <td colspan="4">Total Amount</td>
-                    <td colspan="1"></td>
+                    <td colspan="1">{{total}}</td>
                 </tr>
                 <tr>
                   <td colspan="4">Previous Dues (If Any)</td>
@@ -153,7 +153,7 @@
                 <tr style="background: rgba(217,225,242,1.0);">
 
                     <td colspan="4">Final Amount</td>
-                    <td></td>
+                    <td>{{final}}</td>
                 </tr>
                 </tfoot>
 
@@ -172,6 +172,10 @@
   a.btn{
     position:relative;
     left:500px;
+  }
+  h4{
+    position:relative;
+    left:150px;
   }
 </style>
 {% endblock %}
