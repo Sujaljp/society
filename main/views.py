@@ -170,10 +170,14 @@ def viewbill(request, bill_id):
 
 def searchbill(request):
     obj = Profile.objects.all()
+    x = 0 #for checking if user has bills or not
     username = request.user.get_username()
     list = []
     for user1 in Bills.objects.all():
         if username == user1.user.username:
             list.append(user1)
-
-    return render(request, 'main/searchbill.html', context={'searchbill':list})
+            x=1
+    if x==1:        
+        return render(request, 'main/searchbill.html', context={'searchbill':list})
+    if x==0:
+        return render(request, 'main/nobills.html')
