@@ -9,14 +9,20 @@
             {% if user.is_authenticated %}
               {% if user.is_staff %}
                 <li><a href="/makenotice">Make Notice</a></li>
-              {% endif %}
-              
+                <li><a href="/addvisitor">Add Visitors</a></li>
+                <li><a href="/visitor">Visitors Log</a></li>
+
+                <li><a href="/noticeboard">Notice Board</a></li>
+                <li><a href="/logout">Logout</a></li>
+              {% else %}
+
               <li><a href="/noticeboard">Notice Board</a></li>
               <li><a href="/service">Services</a></li>
               <li><a href="/searchbill">Bills</a></li>
               <li><a href="/complaint">Complaint Box</a></li>
               <li><a href="/staff">Society Staff</a></li>
               <li><a href="/logout">Logout</a></li>
+              {% endif %}
             {% else %}
               <li><a href="/login">Login</a></li>
             {% endif %}

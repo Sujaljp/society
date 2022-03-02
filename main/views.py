@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from main.forms import NewUserForm, ComplaintForm, NoticeForm, ServiceForm
+from main.forms import NewUserForm, ComplaintForm, NoticeForm, ServiceForm, VisitorForm
 from main.models import MainPage
-from .models import MainPage, Notice, Staff, Profile, Service, Bills
+from .models import MainPage, Notice, Staff, Profile, Service, Bills, Visitor
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
@@ -177,7 +177,23 @@ def searchbill(request):
         if username == user1.user.username:
             list.append(user1)
             x=1
-    if x==1:        
+    if x==1:
         return render(request, 'main/searchbill.html', context={'searchbill':list})
     if x==0:
         return render(request, 'main/nobills.html')
+
+def addvisitor(request):
+    if request.method == 'GET':
+        return render(request, "main/addvisitor.html", context={'form': VisitorForm()})
+    else:
+        form = VisitorForm(request.POST)
+        newvisitor = form.save(commit=False)
+        newvisitor.user = request.user
+        newvisitor.save()
+        messages.info(request, 'Visitor registered successfully!')
+        return render(request, 'main/visitor.html')
+
+
+def visitor(request):
+    messages.info(request, 'You are viewing the Visitor Log')
+    return render(request, "main/visitor.html", context={'visit': Visitor.objects.all})

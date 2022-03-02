@@ -1,0 +1,25 @@
+{% extends "main/header.html" %} {% block content %}
+<div class="container">
+  <h1 style="text-align:center;">Visitor Log</h1>
+  <table border=1>
+    <tr>
+      <td>Name</td>
+      <td>Phone Number</td>
+      <td>Visiting Flat</td>
+      <td>Date</td>
+      <td>Time</td>
+    </tr>
+    {% for v in visit %}
+    <tr>
+      <td>{{v.visitor_name}}</td>
+      <td>{{v.visitor_phone}}</td>
+      <td>{{v.visiting_flat}}</td>
+      <td>{{v.visiting_date}}</td>
+      <td>{{v.visiting_time}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+
+
+{% endblock %}

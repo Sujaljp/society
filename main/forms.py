@@ -1,9 +1,9 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Complaint, Notice, Service
+from .models import Complaint, Notice, Service, Visitor
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-
+import datetime
 class NewUserForm(UserCreationForm):
     email = forms.EmailField(required=True)
     age = forms.IntegerField()
@@ -44,6 +44,7 @@ class ComplaintForm(ModelForm):
         self.fields['contact_email'].label = "Your email:"
         self.fields['content'].label = "Please specify your complaint:"
 
+
 class NoticeForm(ModelForm):
     class Meta:
         model = Notice
@@ -77,3 +78,16 @@ class ServiceForm(ModelForm):
         super(ServiceForm, self).__init__(*args, **kwargs)
         self.fields['client'].label = "Please enter your Flat Number:"
         self.fields['service_details'].label = "Specify your request:"
+
+
+class VisitorForm(ModelForm):
+    class Meta:
+        model = Visitor
+        fields = ['visitor_name', 'visitor_phone', 'visiting_flat', 'visiting_date', 'visiting_time']
+
+
+    visitor_name = forms.CharField(max_length=100, required = True)
+    visitor_phone =  forms.IntegerField(required = True)
+    visiting_flat = forms.CharField(max_length=100, required = True)
+    visiting_date = forms.DateField(required = True)
+    visiting_time = forms.TimeField(required = True)

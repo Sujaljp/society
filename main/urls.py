@@ -16,7 +16,8 @@ urlpatterns = [
     path('service', views.service, name='service'),
     path('searchbill', views.searchbill, name='searchbill'),
     path('<int:bill_id>/', views.viewbill, name='viewbill'),
-
+    path('addvisitor', views.addvisitor, name='addvisitor'),
+    path('visitor', views.visitor, name='visitor'),
     path('test', views.test, name='test'),
 ]
 
