@@ -48,6 +48,16 @@ class Staff(models.Model):
     def __str__(self):
         return str(self.designation)
 
+class Visitor(models.Model):
+    visitor_name = models.CharField(max_length=100)
+    visitor_phone =  models.IntegerField()
+    visiting_flat = models.CharField(max_length=100)
+    visiting_date = models.DateField(default=datetime.date.today)
+    visiting_time = models.TimeField(default=datetime.datetime.now)
+    def __str__(self):
+        return str(self.visitor_name)
+
+
 
 class Service(models.Model):
     service_name=models.CharField(max_length=100)

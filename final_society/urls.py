@@ -21,5 +21,4 @@ admin.site.intex_title = 'Database Management System'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
-    path('tinymce/', include('tinymce.urls')),
 ]
