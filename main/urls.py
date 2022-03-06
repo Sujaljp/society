@@ -15,9 +15,10 @@ urlpatterns = [
     path('makenotice', views.makenotice, name='makenotice'),
     path('service', views.service, name='service'),
     path('searchbill', views.searchbill, name='searchbill'),
-    path('<int:bill_id>/', views.viewbill, name='viewbill'),
-
+    path('bill/<int:bill_id>', views.viewbill, name='viewbill'),
+    path('pay/<int:bill_id>', views.pay, name='pay'),
     path('test', views.test, name='test'),
+    path('success' , views.success , name='success')
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

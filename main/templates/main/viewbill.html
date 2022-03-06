@@ -1,6 +1,5 @@
 {% extends "main/header.html" %} {% block content %}
 
-
 <head>
 
     <meta charset="utf-8">
@@ -165,6 +164,7 @@
 
     </div>
 </div><br>
+<a href="{% url 'main:pay' bill_id %}" class="btn">Pay</a>
 <a href="javascript:void(0);" class="btn" onclick="printPageArea('printableArea')">Print</a><br><br>
 </section>
 </body>
