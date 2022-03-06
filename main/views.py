@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from main.forms import NewUserForm, ComplaintForm, NoticeForm, ServiceForm, VisitorForm
+from main.forms import NewUserForm, ComplaintForm, NoticeForm, ServiceForm, VisitorForm, otpForm
 from main.models import MainPage
 from .models import MainPage, Notice, Staff, Profile, Service, Bills, Visitor
 from django.contrib.auth.forms import AuthenticationForm
@@ -13,6 +13,13 @@ from django.db.models import Sum
 from django.db.models import F
 from django.contrib.auth.models import User
 from django.forms.models import model_to_dict
+import os
+from twilio.rest import Client
+import random
+import http.client
+
+
+
 def homepage(request):
     return render(request=request,
                   template_name='main/home.html',
@@ -187,12 +194,82 @@ def addvisitor(request):
         return render(request, "main/addvisitor.html", context={'form': VisitorForm()})
     else:
         form = VisitorForm(request.POST)
+        global newvisitor
         newvisitor = form.save(commit=False)
         newvisitor.user = request.user
-        newvisitor.save()
-        messages.info(request, 'Visitor registered successfully!')
-        return render(request, 'main/visitor.html')
+        phone_no = newvisitor.visitor_phone
+        
+        check_flat = Profile.objects.filter(flat_no = newvisitor.visiting_flat).first()
+        if check_flat:
+            print('Testing')
+        else:
+            
+            messages.error(request,'No such flat exists')
+            return redirect('main:homepage')
+        
+        global otp
+        otp = str(random.randint(1000, 9999))
+        vlist = {'phone_no':phone_no, 'otp':otp}
+        
+        
+        sms(phone_no, otp)
+        
+        request.session['phone_no'] = phone_no
+        
+        
+        return redirect('main:otpfunc')
 
+    
+
+def otpfunc(request):
+    mobile = request.session['phone_no']
+    form = otpForm(request.POST)
+    context = {'mobile':mobile, 'form':otpForm()}
+    if request.method == 'GET':
+        return render(request,'main/visitorotp.html', context)  
+    else:
+        otpnew = request.POST.get('otp')
+        print(otp)
+        print(otpnew)
+        if otpnew == otp:
+            newvisitor.save()
+            messages.info(request, 'Visitor registered successfully!')
+            return redirect('main:homepage')
+        else:
+            messages.error(request, 'Wrong otp entered!')
+            return render(request,'main/home.html', context) 
+
+
+def sms(mobile, otp):
+     
+ 
+    account_sid = 'AC1be04f78c7992d2b8bbe64386ae1a190' 
+    auth_token = '999a81fa80b934dad00fc9e8524f7720' 
+    client = Client(account_sid, auth_token) 
+    
+    message = client.messages.create(  
+                                messaging_service_sid='MG9217aa22b3c308b0a0c298d1aa79ce50', 
+                                body=f'The otp is {otp}',      
+                                to=f'{mobile}'
+                            ) 
+    
+    print(message.sid)
+
+
+def send_otp(mobile , otp):
+    conn = http.client.HTTPSConnection("api.msg91.com")
+    print('works')
+    authkey = settings.AUTH_KEY
+    payload = "{\"Value1\":\"Param1\",\"Value2\":\"Param2\",\"Value3\":\"Param3\"}"
+    newmobile = str(mobile)
+    newotp = str(otp)
+    headers = { 'Content-Type': "application/json" }
+    url1 ="https://api.msg91.com/api/v5/otp?otp="+otp+"&message="+"Your%20otp%20is%20"+newotp+"&mobile="+newmobile+"&authkey="+authkey+"&country=+91"
+    conn.request("GET",url1, headers=headers)
+    res = conn.getresponse()
+    data = res.read()
+    print(data)
+    return None
 
 def visitor(request):
     messages.info(request, 'You are viewing the Visitor Log')

@@ -128,7 +128,8 @@ MEDIA_URL = 'media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+AUTH_KEY = '374029AFTcqExvlY6224740fP1'
+SMS_BACKEND = 'sms.backends.console.SmsBackend'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'

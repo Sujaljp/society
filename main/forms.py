@@ -24,6 +24,14 @@ class NewUserForm(UserCreationForm):
                 user.save()
             return user
 
+class otpForm(ModelForm):
+    class Meta:
+        model = Visitor
+        fields = ['otp']
+    otp = forms.CharField(required=True)
+    def __init__(self, *args, **kwargs):
+        super(otpForm, self).__init__(*args, **kwargs)
+        self.fields['otp'].label = "Enter the OTP:"
 
 class ComplaintForm(ModelForm):
     class Meta:
