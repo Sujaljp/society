@@ -18,6 +18,8 @@ from twilio.rest import Client
 import random
 import http.client
 
+import razorpay
+from django.views.decorators.csrf import csrf_exempt
 
 
 def homepage(request):
@@ -170,7 +172,7 @@ def viewbill(request, bill_id):
     total = bill['repairs_maintenance_charges'] + bill['society_service_charges'] + bill['charity_charges'] + bill['sinking_fund_charges'] + bill['parking_charges']
     final = total + bill['previous_dues']
 
-    context={'bill':bill, 'profile':prof, 'total':total, 'final':final}
+    context={'bill':bill, 'profile':prof, 'total':total, 'final':final, 'bill_id': bill_id}
 
     return render(request, 'main/viewbill.html', context )
 
@@ -274,3 +276,75 @@ def send_otp(mobile , otp):
 def visitor(request):
     messages.info(request, 'You are viewing the Visitor Log')
     return render(request, "main/visitor.html", context={'visit': Visitor.objects.all})
+@csrf_exempt
+def pay(request, bill_id):
+    
+    bill = model_to_dict(Bills.objects.get(pk = bill_id))
+
+    username = request.user.get_username()
+    for user1 in Profile.objects.all():
+        if username == user1.user.username:
+            prof = user1
+
+    total = bill['repairs_maintenance_charges'] + bill['society_service_charges'] + bill['charity_charges'] + bill['sinking_fund_charges'] + bill['parking_charges']
+    final = total + bill['previous_dues']
+
+    context={'bill':bill, 'profile':prof, 'total':total, 'final':final, 'finalP': final*100}
+
+    if request.method == 'POST':
+        print(5)
+        razorpay_client = razorpay.Client(auth=("rzp_test_CK8AWrEy84pP7i", "UNfgBNxADdlf1rb5rmU4UyPx"))   
+        data = { "amount": final*100, "currency": "INR", "receipt": "order_rcptid_11", 'payment_capture': '1'}
+        razorpay_order = razorpay_client.order.create(data=data)
+        razorpay_order_id = razorpay_order['id']
+    return render(request, 'main/pay.html', context)
+
+@csrf_exempt
+def success(request):
+    return render(request, "main/success.html")
+
+@csrf_exempt
+def paymenthandler(request):
+ 
+    # only accept POST request.
+    if request.method == "POST":
+        try:
+           
+            # get the required parameters from post request.
+            payment_id = request.POST.get('razorpay_payment_id', '')
+            razorpay_order_id = request.POST.get('razorpay_order_id', '')
+            signature = request.POST.get('razorpay_signature', '')
+            params_dict = {
+                'razorpay_order_id': razorpay_order_id,
+                'razorpay_payment_id': payment_id,
+                'razorpay_signature': signature
+            }
+ 
+            # verify the payment signature.
+            result = razorpay_client.utility.verify_payment_signature(
+                params_dict)
+            if result is None:
+                amount = 20000  # Rs. 200
+                try:
+ 
+                    # capture the payemt
+                    razorpay_client.payment.capture(payment_id, amount)
+ 
+                    # render success page on successful caputre of payment
+                    return render(request, 'paymentsuccess.html')
+                except:
+ 
+                    # if there is an error while capturing payment.
+                    return render(request, 'paymentfail.html')
+            else:
+ 
+                # if signature verification fails.
+                return render(request, 'paymentfail.html')
+        except:
+ 
+            # if we don't find the required parameters in POST data
+            return HttpResponseBadRequest()
+    else:
+       # if other than POST request is made.
+        return HttpResponseBadRequest()
+        

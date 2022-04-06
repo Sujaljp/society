@@ -19,7 +19,10 @@ urlpatterns = [
     path('addvisitor', views.addvisitor, name='addvisitor'),
     path('otpfunc', views.otpfunc, name='otpfunc'),
     path('visitor', views.visitor, name='visitor'),
+    path('bill/<int:bill_id>', views.viewbill, name='viewbill'),
+    path('pay/<int:bill_id>', views.pay, name='pay'),
     path('test', views.test, name='test'),
+    path('success' , views.success , name='success')
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
